@@ -1,0 +1,33 @@
+{
+  "posts": [
+    {
+      "id": 2,
+      "post": {
+        "title": "công112",
+        "content": "123113"
+      }
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "comment": "Xin chào các bạn."
+    },
+    {
+      "id": 2,
+      "comment": "Xin chào các bạn."
+    },
+    {
+      "id": 3,
+      "comment": "Xin chào các bạn."
+    },
+    {
+      "id": 4,
+      "comment": "Xin chào các bạn."
+    },
+    {
+      "id": 5,
+      "comment": "Xin chào các bạn."
+    }
+  ]
+}
