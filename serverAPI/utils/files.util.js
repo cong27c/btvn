@@ -1,7 +1,5 @@
-const express = require("express");
-const fs = require("fs").promises;
-
 const DB_FILE = "./db.json";
+const fs = require("fs").promises;
 
 async function readDb(resource) {
   try {
@@ -23,6 +21,6 @@ async function writeDb(resource, data) {
 }
 
 module.exports = {
-  readDb,
   writeDb,
+  readDb,
 };

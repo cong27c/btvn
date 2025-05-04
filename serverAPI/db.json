@@ -1,33 +1,62 @@
 {
   "posts": [
     {
+      "id": 1,
+      "title": "sửa tiêu đề"
+    },
+    {
       "id": 2,
-      "post": {
-        "title": "công112",
-        "content": "123113"
-      }
+      "title": "tiêu đề",
+      "content": "nội dung"
     }
   ],
   "comments": [
     {
       "id": 1,
-      "comment": "Xin chào các bạn."
+      "title": "sửa tiêu đề"
     },
     {
       "id": 2,
-      "comment": "Xin chào các bạn."
+      "title": "tiêu đề",
+      "content": "nội dung"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "title": "sửa tiêu đề"
+    },
+    {
+      "id": 2,
+      "title": "tiêu đề",
+      "content": "nội dung"
     },
     {
       "id": 3,
-      "comment": "Xin chào các bạn."
+      "title": "tiêu đề",
+      "content": "nội dung"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "title": "sửa tiêu đề"
     },
     {
-      "id": 4,
-      "comment": "Xin chào các bạn."
+      "id": 2,
+      "title": "tiêu đề",
+      "content": "nội dung"
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "title": "sửa tiêu đề"
     },
     {
-      "id": 5,
-      "comment": "Xin chào các bạn."
+      "id": 2,
+      "title": "tiêu đề",
+      "content": "nội dung"
     }
   ]
 }
