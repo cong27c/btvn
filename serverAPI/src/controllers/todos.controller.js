@@ -1,90 +1,43 @@
-const { readDb, writeDb } = require("../../utils/files.util");
-const RESOURCE = "todos";
+const { success } = require("../utils/response");
+const todoServices = require("../services/todos.service");
+const throwError = require("../utils/throwError");
 
 exports.getAllTodos = async (req, res) => {
-  const todos = await readDb(RESOURCE);
-  res.status(200).json({
-    status: "success",
-    data: todos,
-  });
+  const todos = await todoServices.getAllTodos();
+  return success(res, 200, todos);
 };
 
 exports.getTodoById = async (req, res) => {
   const id = Number(req.params.id);
-  if (isNaN(id)) {
-    return res.status(400).json({
-      status: "error",
-      message: "Id không hợp lệ",
-    });
-  }
+  if (isNaN(id)) throwError(404, "ID không hợp lệ");
 
-  const todos = await readDb(RESOURCE);
-  const todo = todos.find((item) => item.id === id);
+  const todo = await todoServices.getTodoById(id);
+  if (!todo) throwError(404, "Không tìm thấy công việc");
 
-  if (!todo) {
-    return res.status(404).json({
-      status: "error",
-      message: "Không tìm thấy todo",
-    });
-  }
-
-  res.status(200).json({ data: todo });
+  return success(res, 200, todo);
 };
 
 exports.createTodo = async (req, res) => {
-  const todos = await readDb(RESOURCE);
-  const newTodo = {
-    id: (todos[todos.length - 1]?.id ?? 0) + 1,
-    title: req.body.title,
-    content: req.body.content,
-  };
-
-  todos.push(newTodo);
-  await writeDb(RESOURCE, todos);
-
-  res.status(201).json({
-    status: "success",
-    data: newTodo,
-  });
+  const newTodo = await todoServices.createTodo(req.body);
+  return success(res, 201, newTodo);
 };
 
 exports.updateTodo = async (req, res) => {
   const id = Number(req.params.id);
-  const todos = await readDb(RESOURCE);
-  const todo = todos.find((item) => item.id === id);
+  if (isNaN(id)) throwError(404, "ID không hợp lệ");
 
-  if (!todo) {
-    return res.status(404).json({
-      status: "error",
-      message: "Không tìm thấy todo",
-    });
-  }
+  const updatedTodo = await todoServices.updateTodo(id, req.body);
+  if (!updatedTodo) throwError(404, "Không tìm thấy công việc");
 
-  todo.title = req.body.title;
-  todo.content = req.body.content;
-
-  await writeDb(RESOURCE, todos);
-
-  res.status(200).json({
-    status: "success",
-    data: todo,
-  });
+  return success(res, 200, updatedTodo);
 };
 
 exports.deleteTodo = async (req, res) => {
   const id = Number(req.params.id);
-  const todos = await readDb(RESOURCE);
-  const index = todos.findIndex((item) => item.id === id);
+  if (isNaN(id)) throwError(404, "ID không hợp lệ");
 
-  if (index === -1) {
-    return res.status(404).json({
-      status: "error",
-      message: "Không tìm thấy todo",
-    });
-  }
+  const deleted = await todoServices.deleteTodo(id);
+  if (!deleted) throwError(404, "Không tìm thấy công việc");
 
-  todos.splice(index, 1);
-  await writeDb(RESOURCE, todos);
-
-  res.status(204).send();
+  return res.status(204).send();
 };

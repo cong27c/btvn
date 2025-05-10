@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const postsControllers = require("../controllers/posts.controller");
+const postsController = require("../controllers/posts.controller");
 const postValidator = require("../validators/posts.validator");
+// Posts
+router.get("/", postsController.getAllPosts);
 
-router.get("/", postsControllers.getAllPosts);
+router.get("/:id", postsController.getPostById);
 
-router.get("/:id", postsControllers.getPostById);
+router.post("/", postValidator.createPost, postsController.createPost);
 
-router.post("/", postValidator.createPost, postsControllers.createPost);
+router.put("/:id", postValidator.updatePost, postsController.updatePost);
+router.patch("/:id", postValidator.updatePost, postsController.updatePost);
 
-router.put("/:id", postValidator.updatePost, postsControllers.updatePost);
-router.patch("/:id", postValidator.updatePost, postsControllers.updatePost);
-
-router.delete("/:id", postsControllers.deletePost);
+router.delete("/:id", postsController.deletePost);
 
 module.exports = router;

@@ -9,23 +9,25 @@ router.get("/:id", commentsControllers.getCommentById);
 
 router.post(
   "/",
-  commentsValidator.createComments,
+  commentsValidator.createComment,
   commentsControllers.createComment
 );
 
 router.put(
   "/:id",
-  commentsValidator.updateComments,
+  commentsValidator.updateComment,
   commentsControllers.updateComment
 );
+
 router.patch(
   "/:id",
-  commentsValidator.updateComments,
+  commentsValidator.updateComment,
   commentsControllers.updateComment
 );
 
-router.put("/:id", commentsControllers.updateComment);
+router.put("/:postId/comments/:commentId", commentsControllers.updateComment);
+router.patch("/:postId/comments/:commentId", commentsControllers.updateComment);
 
-router.delete("/:id", commentsControllers.deleteComment);
+router.delete("/:postId/comments/:comments", commentsControllers.deleteComment);
 
 module.exports = router;

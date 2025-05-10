@@ -1,97 +1,43 @@
-const { readDb, writeDb } = require("../../utils/files.util");
-
-const RESOURCE = "posts";
+const { success } = require("../utils/response");
+const postsServices = require("../services/posts.service");
+const throwError = require("../utils/throwError");
 
 exports.getAllPosts = async (req, res) => {
-  const posts = await readDb(RESOURCE);
-  res.status(200).json({
-    status: "success",
-    data: posts,
-  });
+  const posts = await postsServices.getAllPosts();
+  return success(res, 200, posts);
 };
 
 exports.getPostById = async (req, res) => {
   const id = Number(req.params.id);
+  if (isNaN(id)) throwError(404, "ID không hợp lệ");
 
-  if (isNaN(id)) {
-    return res.status(400).json({
-      status: "error",
-      message: "ID không hợp lệ",
-    });
-  }
+  const post = await postsServices.getPostById(id);
+  if (!post) throwError(404, "Not found.");
 
-  const posts = await readDb(RESOURCE);
-  const post = posts.find((post) => post.id === id);
-
-  if (!post) {
-    res.status(404).json({
-      status: "error",
-      message: "Ko tìm thấy post",
-    });
-    return;
-  }
-  res.status(200).json({
-    data: post,
-  });
+  return success(res, 200, post);
 };
 
 exports.createPost = async (req, res) => {
-  const posts = await readDb(RESOURCE);
-
-  const newPost = {
-    id: (posts[posts.length - 1]?.id ?? 0) + 1,
-    title: req.body.title,
-    content: req.body.content,
-  };
-
-  posts.push(newPost);
-
-  await writeDb(RESOURCE, posts);
-
-  res.status(201).json({
-    status: "success",
-    data: newPost,
-  });
+  const newPost = await postsServices.createPost(req.body);
+  return success(res, 201, newPost);
 };
 
 exports.updatePost = async (req, res) => {
-  const posts = await readDb(RESOURCE);
+  const id = Number(req.params.id);
+  if (isNaN(id)) throwError(404, "ID không hợp lệ");
 
-  const post = posts.find((item) => item.id === +req.params.id);
+  const updatedPost = await postsServices.updatePost(id, req.body);
+  if (!updatedPost) throwError(404, "Not found.");
 
-  if (!post) {
-    res.json({
-      status: "error",
-      message: "Resource not found",
-    });
-    return;
-  }
-
-  post.title = req.body.title;
-  post.content = req.body.content;
-  await writeDb(RESOURCE, posts);
-
-  res.status(200).json({
-    status: "success",
-    data: post,
-  });
+  return success(res, 200, updatedPost);
 };
 
 exports.deletePost = async (req, res) => {
-  const posts = await readDb(RESOURCE);
+  const id = Number(req.params.id);
+  if (isNaN(id)) throwError(404, "ID không hợp lệ");
 
-  const index = posts.findIndex((item) => item.id === +req.params.id);
+  const deleted = await postsServices.deletePost(id);
+  if (!deleted) throwError(404, "Not found.");
 
-  if (index === -1) {
-    res.json({
-      status: "error",
-      message: "Resource not found",
-    });
-    return;
-  }
-
-  posts.splice(index, 1);
-  await writeDb(RESOURCE, posts);
-
-  res.status(204).send();
+  return res.status(204).send();
 };

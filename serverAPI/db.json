@@ -2,39 +2,44 @@
   "posts": [
     {
       "id": 1,
-      "title": "sửa tiêu đề"
+      "title": "post mới 1",
+      "content": " content"
     },
     {
       "id": 2,
-      "title": "tiêu đề",
-      "content": "nội dung"
+      "title": "post 2",
+      "content": "content 222"
     }
   ],
   "comments": [
     {
-      "id": 1,
-      "title": "sửa tiêu đề"
+      "postId": 1,
+      "content": "comment mới",
+      "author": " công",
+      "id": 1
     },
     {
-      "id": 2,
-      "title": "tiêu đề",
-      "content": "nội dung"
+      "postId": 2,
+      "content": "comment mới 1",
+      "author": " Công",
+      "id": 2
     }
   ],
   "categories": [
     {
-      "id": 1,
-      "title": "sửa tiêu đề"
-    },
-    {
-      "id": 2,
-      "title": "tiêu đề",
-      "content": "nội dung"
-    },
-    {
       "id": 3,
-      "title": "tiêu đề",
-      "content": "nội dung"
+      "title": "sửa tiêu đề 2",
+      "content": "nội dung 2"
+    },
+    {
+      "id": 4,
+      "title": "tiêu đề123123",
+      "content": "nội dung 123"
+    },
+    {
+      "id": 5,
+      "title": "tiêu đề123123",
+      "content": "nội dung 123"
     }
   ],
   "products": [
@@ -44,8 +49,8 @@
     },
     {
       "id": 2,
-      "title": "tiêu đề",
-      "content": "nội dung"
+      "title": "products 2",
+      "content": "products 2"
     }
   ],
   "todos": [
@@ -58,5 +63,6 @@
       "title": "tiêu đề",
       "content": "nội dung"
     }
-  ]
+  ],
+  "users": []
 }

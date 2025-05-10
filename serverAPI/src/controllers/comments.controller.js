@@ -1,108 +1,43 @@
-const express = require("express");
-const fs = require("fs").promises;
-
-const DB_FILE = "./db.json";
-const RESOURCE = "comments";
-
-async function readDb(resource) {
-  try {
-    const jsonDb = await fs.readFile(DB_FILE, "utf-8");
-    return JSON.parse(jsonDb)[resource] ?? [];
-  } catch (error) {
-    return [];
-  }
-}
-async function writeDb(resource, data) {
-  let db = {};
-  try {
-    const jsonDb = await fs.readFile(DB_FILE, "utf-8");
-    db = JSON.parse(jsonDb);
-  } catch (error) {}
-
-  db[resource] = data;
-  await fs.writeFile(DB_FILE, JSON.stringify(db, null, 2));
-}
+const { success } = require("../utils/response");
+const commentServices = require("../services/comments.service");
+const throwError = require("../utils/throwError");
 
 exports.getAllComments = async (req, res) => {
-  const comments = await readDb(RESOURCE);
-  res.json({
-    status: "success",
-    data: comments,
-  });
+  const comments = await commentServices.getAllComments();
+  return success(res, 200, comments);
 };
 
 exports.getCommentById = async (req, res) => {
-  const comments = await readDb(RESOURCE);
-  const comment = comments.find((item) => item.id === +req.params.id);
+  const id = Number(req.params.id);
+  if (isNaN(id)) throwError(400, "ID không hợp lệ");
 
-  if (!comment) {
-    res.status(404).json({
-      status: "error",
-      message: "Resource not found",
-    });
-    return;
-  }
+  const comment = await commentServices.getCommentById(id);
+  if (!comment) throwError(404, "Không tìm thấy comment");
 
-  res.status(200).json({
-    data: comment,
-  });
+  return success(res, 200, comment);
 };
 
 exports.createComment = async (req, res) => {
-  const comments = await readDb(RESOURCE);
-
-  const newComment = {
-    id: (comments[comments.length - 1]?.id ?? 0) + 1,
-    title: req.body.title,
-    content: req.body.content,
-  };
-
-  comments.push(newComment);
-
-  await writeDb(RESOURCE, comments);
-
-  res.status(201).json({
-    status: "success",
-    data: newComment,
-  });
+  const newComment = await commentServices.createComment(req.body);
+  return success(res, 201, newComment);
 };
 
 exports.updateComment = async (req, res) => {
-  const comments = await readDb(RESOURCE);
+  const id = Number(req.params.id);
+  if (isNaN(id)) throwError(400, "ID không hợp lệ");
 
-  const comment = comments.find((item) => item.id === +req.params.id);
+  const updatedComment = await commentServices.updateComment(id, req.body);
+  if (!updatedComment) throwError(404, "Không tìm thấy comment");
 
-  if (!comment) {
-    res.status(404).json({
-      status: "error",
-      message: "Resource not found",
-    });
-    return;
-  }
-
-  comment.title = req.body.title;
-  comment.content = req.body.content;
-  await writeDb(RESOURCE, comments);
-  res.status(200).json({
-    status: "success",
-    data: comment,
-  });
+  return success(res, 200, updatedComment);
 };
 
 exports.deleteComment = async (req, res) => {
-  const comments = await readDb(RESOURCE);
+  const id = Number(req.params.id);
+  if (isNaN(id)) throwError(400, "ID không hợp lệ");
 
-  const index = comments.findIndex((item) => item.id === +req.params.id);
+  const deleted = await commentServices.deleteComment(id);
+  if (!deleted) throwError(404, "Không tìm thấy comment");
 
-  if (index === -1) {
-    res.json({
-      status: "error",
-      message: "Resource not found",
-    });
-    return;
-  }
-
-  comments.splice(index, 1);
-
-  res.status(204).send();
+  return res.status(204).send();
 };

@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const throwError = require("../utils/throwError");
 
 function handleValidationErrors(req, res, next) {
   const errors = validationResult(req);
@@ -6,7 +7,7 @@ function handleValidationErrors(req, res, next) {
   if (errors.isEmpty()) {
     return next();
   }
-  res.json({
+  throwError(422, {
     errors: errors.array().map((error) => ({
       field: error.path,
       message: error.msg,

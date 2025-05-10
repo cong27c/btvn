@@ -1,7 +1,7 @@
 const { checkSchema } = require("express-validator");
 const handleValidationErrors = require("./handleValidationErrors");
 
-exports.createComments = [
+exports.createComment = [
   checkSchema({
     title: {
       errorMessage: "Trường này ko được để trống",
@@ -15,7 +15,7 @@ exports.createComments = [
   handleValidationErrors,
 ];
 
-exports.updateComments = [
+exports.updateComment = [
   checkSchema({
     title: {
       optional: true,
