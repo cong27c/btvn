@@ -14,13 +14,13 @@
   "comments": [
     {
       "postId": 1,
-      "content": "comment mới",
-      "author": " công",
+      "content": "sửa comments 2",
+      "author": "Hoàng",
       "id": 1
     },
     {
       "postId": 2,
-      "content": "comment mới 1",
+      "content": "comment mới 2",
       "author": " Công",
       "id": 2
     }
