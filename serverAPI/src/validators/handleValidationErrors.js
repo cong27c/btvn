@@ -1,17 +1,16 @@
 const { validationResult } = require("express-validator");
-const throwError = require("../utils/throwError");
+const response = require("../utils/response");
 
 function handleValidationErrors(req, res, next) {
-  const errors = validationResult(req);
+  const result = validationResult(req);
 
-  if (errors.isEmpty()) {
-    return next();
-  }
-  throwError(422, {
-    errors: errors.array().map((error) => ({
-      field: error.path,
-      message: error.msg,
-    })),
-  });
+  if (result.isEmpty()) return next();
+
+  const errors = result.array().map((error) => ({
+    field: error.path,
+    message: error.msg,
+  }));
+
+  response.error(res, 422, "Unprocessable entity.", errors);
 }
 module.exports = handleValidationErrors;

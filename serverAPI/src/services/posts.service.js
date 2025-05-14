@@ -1,72 +1,29 @@
-const { readDb, writeDb } = require("../utils/files.util");
-const { getCommentsByPostId } = require("./comments.service");
-
-const RESOURCE = "posts";
-
-const getAllPosts = async () => {
-  const posts = await readDb(RESOURCE);
-
-  if (!posts || posts.length === 0) throwError(404, "Không có bài viết nào!");
-
-  return posts;
-};
-
-const getPostById = async (id) => {
-  const posts = await readDb(RESOURCE);
-  const post = posts.find((item) => item.id === id);
-  return post;
-};
-
-const createPost = async (data) => {
-  const posts = await readDb(RESOURCE);
-
-  const newPost = {
-    id: (posts[posts.length - 1]?.id ?? 0) + 1,
-    title: data.title,
-    content: data.content,
-  };
-
-  const updatePosts = [...posts, newPost];
-  await writeDb(RESOURCE, updatePosts);
-
-  return newPost;
-};
-
-const updatePost = async (id, data) => {
-  const posts = await readDb(RESOURCE);
-  const postIndex = posts.findIndex((item) => item.id === id);
-
-  if (postIndex === -1) return null;
-
-  const updatedPost = { ...posts[postIndex], ...data };
-  const updatedPosts = [
-    ...posts.slice(0, postIndex),
-    updatedPost,
-    ...posts.slice(postIndex + 1),
-  ];
-
-  await writeDb(RESOURCE, updatedPosts);
-
-  return updatedPost;
-};
-
-const deletePost = async (id) => {
-  const posts = await readDb(RESOURCE);
-
-  const index = posts.findIndex((item) => item.id === +id);
-
-  if (index !== -1) {
-    posts.splice(index, 1);
-    await writeDb(RESOURCE, posts);
+const postsModel = require("../models/posts.model");
+class PostsServices {
+  async getPaginatedPosts(page, limit) {
+    const offset = (page - 1) * limit;
+    const posts = await postsModel.getPaginatedPosts(limit, offset);
+    return posts;
   }
 
-  return index >= 0;
-};
+  async getById(id) {
+    const post = await postsModel.findById(id);
+    return post;
+  }
 
-module.exports = {
-  getAllPosts,
-  getPostById,
-  createPost,
-  updatePost,
-  deletePost,
-};
+  async create(data) {
+    const post = await postsModel.create(data);
+    return post;
+  }
+
+  async update(id, data) {
+    const post = await postsModel.update(id, data);
+    return post;
+  }
+
+  async remove(id) {
+    const post = await postsModel.remove(id);
+    return post;
+  }
+}
+module.exports = new PostsServices();

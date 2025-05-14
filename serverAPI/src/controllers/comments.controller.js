@@ -1,43 +1,27 @@
 const { success } = require("../utils/response");
-const commentServices = require("../services/comments.service");
-const throwError = require("../utils/throwError");
+const commentsService = require("../services/comments.service");
 
-exports.getAllComments = async (req, res) => {
-  const comments = await commentServices.getAllComments();
-  return success(res, 200, comments);
+exports.getList = async (req, res) => {
+  const comments = await commentsService.getAll();
+  success(res, 200, comments);
 };
 
-exports.getCommentById = async (req, res) => {
-  const id = Number(req.params.id);
-  if (isNaN(id)) throwError(400, "ID không hợp lệ");
-
-  const comment = await commentServices.getCommentById(id);
-  if (!comment) throwError(404, "Không tìm thấy comment");
-
-  return success(res, 200, comment);
+exports.getOne = async (req, res) => {
+  success(res, 200, req.comment);
 };
 
-exports.createComment = async (req, res) => {
-  const newComment = await commentServices.createComment(req.body);
-  return success(res, 201, newComment);
+exports.create = async (req, res) => {
+  const comment = await commentsService.create(req.body);
+  success(res, 201, comment);
 };
 
-exports.updateComment = async (req, res) => {
-  const id = Number(req.params.id);
-  if (isNaN(id)) throwError(400, "ID không hợp lệ");
-
-  const updatedComment = await commentServices.updateComment(id, req.body);
-  if (!updatedComment) throwError(404, "Không tìm thấy comment");
-
-  return success(res, 200, updatedComment);
+exports.update = async (req, res) => {
+  const comment = await commentsService.update(req.comment.id, req.body);
+  console.log(req.comment.id);
+  success(res, 200, comment);
 };
 
-exports.deleteComment = async (req, res) => {
-  const id = Number(req.params.id);
-  if (isNaN(id)) throwError(400, "ID không hợp lệ");
-
-  const deleted = await commentServices.deleteComment(id);
-  if (!deleted) throwError(404, "Không tìm thấy comment");
-
-  return res.status(204).send();
+exports.remove = async (req, res) => {
+  await commentsService.remove(req.comment.id);
+  success(res, 204);
 };

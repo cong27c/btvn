@@ -2,28 +2,27 @@ const express = require("express");
 const router = express.Router();
 const commentsControllers = require("../controllers/comments.controller");
 const commentsValidator = require("../validators/comments.validator");
+const attachResourceLoaders = require("../utils/attachResourceLoaders");
 
-router.get("/", commentsControllers.getAllComments);
+attachResourceLoaders(router, ["comment"]);
 
-router.get("/:id", commentsControllers.getCommentById);
+router.get("/", commentsControllers.getList);
 
-router.post(
-  "/",
-  commentsValidator.createComments,
-  commentsControllers.createComment
-);
+router.get("/:comment", commentsControllers.getOne);
+
+router.post("/", commentsValidator.createComment, commentsControllers.create);
 
 router.put(
-  "/:id",
-  commentsValidator.updateComments,
-  commentsControllers.updateComment
+  "/:comment",
+  commentsValidator.updateComment,
+  commentsControllers.update
 );
 router.patch(
-  "/:id",
-  commentsValidator.updateComments,
-  commentsControllers.updateComment
+  "/:comment",
+  commentsValidator.updateComment,
+  commentsControllers.update
 );
 
-router.delete("/:id", commentsControllers.deleteComment);
+router.delete("/:comment", commentsControllers.remove);
 
 module.exports = router;

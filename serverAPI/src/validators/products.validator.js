@@ -3,12 +3,17 @@ const handleValidationErrors = require("./handleValidationErrors");
 
 exports.createProduct = [
   checkSchema({
-    title: {
-      errorMessage: "Trường này ko được để trống",
+    price: {
+      errorMessage: "Giá không được để trống",
       notEmpty: true,
+      isFloat: {
+        options: { min: 0 },
+        errorMessage: "Giá phải là số hợp lệ lớn hơn hoặc bằng 0",
+      },
+      toFloat: true,
     },
-    content: {
-      errorMessage: "Trường này ko được để trống",
+    description: {
+      errorMessage: "Mô tả không được để trống",
       notEmpty: true,
     },
   }),
@@ -17,15 +22,17 @@ exports.createProduct = [
 
 exports.updateProduct = [
   checkSchema({
-    title: {
+    price: {
       optional: true,
-      notEmpty: true,
-      errorMessage: "Trường này ko được để trống",
+      isFloat: {
+        options: { min: 0 },
+        errorMessage: "Giá phải là số hợp lệ lớn hơn hoặc bằng 0",
+      },
+      toFloat: true,
     },
-    content: {
+    description: {
       optional: true,
-      notEmpty: true,
-      errorMessage: "Trường này ko được để trống",
+      notEmpty: { errorMessage: "Mô tả không được để trống" },
     },
   }),
   handleValidationErrors,

@@ -2,28 +2,27 @@ const express = require("express");
 const router = express.Router();
 const productsController = require("../controllers/products.controller");
 const productValidator = require("../validators/products.validator");
+const attachResourceLoaders = require("../utils/attachResourceLoaders");
 
-router.get("/", productsController.getAllProducts);
+attachResourceLoaders(router, ["product"]);
 
-router.get("/:id", productsController.getProductById);
+router.get("/", productsController.getList);
 
-router.post(
-  "/",
-  productValidator.createProduct,
-  productsController.createProduct
-);
+router.get("/:product", productsController.getOne);
+
+router.post("/", productValidator.createProduct, productsController.create);
 
 router.put(
-  "/:id",
+  "/:product",
   productValidator.updateProduct,
-  productsController.updateProduct
+  productsController.update
 );
 router.put(
-  "/:id",
+  "/:product",
   productValidator.updateProduct,
-  productsController.updateProduct
+  productsController.update
 );
 
-router.delete("/:id", productsController.deleteProduct);
+router.delete("/:product", productsController.remove);
 
 module.exports = router;
