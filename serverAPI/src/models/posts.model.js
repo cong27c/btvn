@@ -9,6 +9,11 @@ exports.getPaginatedPosts = async (limit, offset) => {
   return posts;
 };
 
+exports.findAll = async () => {
+  const [posts] = await db.query("select * from posts");
+  return posts;
+};
+
 exports.findById = async (id) => {
   const [post] = await db.query(`select * from posts where id = ?`, [id]);
   return post.length ? post[0] : null;

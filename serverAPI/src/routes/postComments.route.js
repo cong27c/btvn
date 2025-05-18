@@ -1,29 +1,33 @@
 const express = require("express");
 const router = express.Router();
 const postCommentsController = require("../controllers/postComments.controller");
-const postCommentsValidator = require("../validators/postComment.validator");
+const commentsController = require("../controllers/comments.controller");
+const attachResourceLoaders = require("../utils/attachResourceLoaders");
+const commentsValidator = require("../validators/comments.validator");
 
-router.get("/:id/comments", postCommentsController.getPostComments);
+attachResourceLoaders(router, ["post", "comment"]);
+
+router.get("/posts/:post/comments", postCommentsController.getList);
+router.get("/comments/:comment", commentsController.getOne);
+
 router.post(
-  "/:id/comments",
-  postCommentsValidator.createPostComment,
-  postCommentsController.createPostComment
+  "/posts/:post/comments",
+  commentsValidator.createComment,
+  postCommentsController.create
 );
 
 router.put(
-  "/:postId/comments/:commentId",
-  postCommentsValidator.updatePostComment,
-  postCommentsController.updatePostComment
-);
-router.patch(
-  "/:postId/comments/:commentId",
-  postCommentsValidator.updatePostComment,
-  postCommentsController.updatePostComment
+  "/comments/:comment",
+  commentsValidator.updateComment,
+  commentsController.update
 );
 
-router.delete(
-  "/:postId/comments/:commentId",
-  postCommentsController.deletePostComment
+router.patch(
+  "comments/:comment",
+  commentsValidator.updateComment,
+  commentsController.update
 );
+
+router.delete("comments/:comment", commentsController.remove);
 
 module.exports = router;

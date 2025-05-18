@@ -6,6 +6,11 @@ class PostsServices {
     return posts;
   }
 
+  async getAll() {
+    const posts = await postsModel.findAll();
+    return posts;
+  }
+
   async getById(id) {
     const post = await postsModel.findById(id);
     return post;

@@ -8,6 +8,11 @@ exports.getList = async (req, res) => {
   success(res, 200, posts);
 };
 
+exports.getAll = async (req, res) => {
+  const posts = await postsServices.getAll();
+  success(res, 201, posts);
+};
+
 exports.getOne = async (req, res) => {
   success(res, 200, req.post);
 };
