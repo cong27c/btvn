@@ -13,7 +13,7 @@ exports.getAll = async (req, res) => {
 exports.getById = async (req, res) => {
   const id = Number(req.params.id);
   const data = await postsService.getById(id);
-  res.render("admin/postDetail/index", {
+  res.render("admin/posts/show", {
     title: "POST DETAIL",
     post: data,
   });
