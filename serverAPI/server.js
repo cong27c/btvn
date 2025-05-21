@@ -17,7 +17,7 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
 app.use(expressLayouts);
-app.set("layout", "./admin/layouts/default");
+app.set("layout", "admin/layouts/default/index");
 
 app.use("/api/v1", router);
 app.use("/admin", adminRouter);
