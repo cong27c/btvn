@@ -1,5 +1,5 @@
 <div class="content-header">
-  <h1><%= title %></h1>
+  <h1>Posts</h1>
   <a href="create-post.html" class="btn btn-primary">
     <i class="fas fa-plus"></i> Add New
   </a>
@@ -79,8 +79,7 @@
     </thead>
     <tbody>
       <!-- Post rows -->
-      <% for(let post of posts) {%>
-      <tr data-id="<%= post.id %>">
+      <tr data-id="1">
         <td>
           <div style="display: flex; align-items: center">
             <img
@@ -89,31 +88,27 @@
               class="item-image"
             />
             <div style="margin-left: 15px">
-              <div class="item-title"><%= post.title %></div>
-              <div class="item-subtitle"><%= post.description %></div>
+              <div class="item-title">10 Tips for Better Productivity</div>
+              <div class="item-subtitle">15 comments • 1,250 views</div>
             </div>
           </div>
         </td>
         <td>John Doe</td>
         <td>Productivity</td>
-        <td><%= post.published_at %></td>
+        <td>Jul 15, 2023</td>
         <td>
           <span class="badge badge-success">Published</span>
         </td>
         <td>
           <div class="action-buttons">
-            <a
-              href="/admin/posts/<%= post.id %>"
-              class="action-btn view"
-              title="View"
-            >
+            <a href="/admin/posts/1" class="action-btn view" title="View">
               <i class="fas fa-eye"></i>
             </a>
-            <a href="edit-post.html?id=1" class="action-btn edit" title="Edit">
+            <a href="/admin/posts/1/edit" class="action-btn edit" title="Edit">
               <i class="fas fa-edit"></i>
             </a>
             <a
-              href="#"
+              href="/admin/posts/1/delete"
               class="action-btn delete delete-item"
               title="Delete"
               data-id="1"
@@ -124,7 +119,6 @@
           </div>
         </td>
       </tr>
-      <% } %>
     </tbody>
   </table>
 

@@ -7,7 +7,7 @@ function success(res, status, data, message) {
 }
 
 function error(res, status, message, errors) {
-  res.status(status || 500).json({
+  res?.status(status).json({
     success: false,
     message,
     errors,

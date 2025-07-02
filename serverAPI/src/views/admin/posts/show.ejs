@@ -1,7 +1,7 @@
 <div class="content-header">
-  <h1><%= title %></h1>
+  <h1>Post Detail</h1>
   <div>
-    <a href="posts.html" class="btn btn-secondary" id="backButton">
+    <a href="/admin/posts" class="btn btn-secondary" id="backButton">
       <i class="fas fa-arrow-left"></i> Back
     </a>
     <a href="#" class="btn btn-primary" id="editButton">
@@ -13,11 +13,11 @@
 <!-- Post Details Container -->
 <div class="card">
   <div class="card-header">
-    <h3 id="itemTitle"><%= post.title %></h3>
+    <h3 id="itemTitle">Loading...</h3>
   </div>
   <div class="card-body">
     <div id="itemContent">
-      <%= post.content %>
+      <!-- Will be populated with JavaScript -->
       <div class="loading-spinner">Loading details...</div>
     </div>
   </div>

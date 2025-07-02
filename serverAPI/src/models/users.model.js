@@ -2,7 +2,9 @@ const db = require("../configs/db");
 const { buildInsertQuery, buildUpdateQuery } = require("../utils/queryBuilder");
 
 exports.findAll = async () => {
-  const [users] = await db.query("select * from users");
+  const [users] = await db.query(
+    "SELECT * FROM users ORDER BY created_at DESC;"
+  );
   return users;
 };
 

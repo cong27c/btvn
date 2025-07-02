@@ -1,6 +1,6 @@
 <div class="content-header">
-  <h1><%= title %></h1>
-  <a href="create-user.html" class="btn btn-primary">
+  <h1>Users Page</h1>
+  <a href="/admin/users/create" class="btn btn-primary">
     <i class="fas fa-plus"></i> Add New
   </a>
 </div>
@@ -31,19 +31,6 @@
       </select>
       <span class="error-text" id="filterRoleError"
         >Please select a valid role.</span
-      >
-    </div>
-
-    <div class="form-group">
-      <label for="filterStatus">Status</label>
-      <select id="filterStatus" class="form-control">
-        <option value="">All Statuses</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-        <option value="pending">Pending</option>
-      </select>
-      <span class="error-text" id="filterStatusError"
-        >Please select a valid status.</span
       >
     </div>
 
@@ -78,17 +65,18 @@
     </thead>
     <tbody>
       <!-- User rows -->
+      <% for(let user of users) {%>
       <tr data-id="1">
         <td>
           <div style="display: flex; align-items: center">
             <div class="avatar">JD</div>
             <div style="margin-left: 15px">
-              <div class="item-title">John Doe</div>
-              <div class="item-subtitle">@johndoe</div>
+              <div class="item-title"><%= user.name%></div>
+              <div class="item-subtitle"><%= user.username%></div>
             </div>
           </div>
         </td>
-        <td>john.doe@example.com</td>
+        <td><%= user.email%></td>
         <td>Administrator</td>
         <td>Today, 09:45 AM</td>
         <td>
@@ -97,232 +85,32 @@
         <td>
           <div class="action-buttons">
             <a
-              href="user-detail.html?id=1"
+              href="/admin/users/<%= user.id  %>"
               class="action-btn view"
               title="View"
             >
               <i class="fas fa-eye"></i>
             </a>
-            <a href="edit-user.html?id=1" class="action-btn edit" title="Edit">
+            <a
+              href="/admin/users/<%= user.id  %>/edit"
+              class="action-btn edit"
+              title="Edit"
+            >
               <i class="fas fa-edit"></i>
             </a>
             <a
               href="#"
               class="action-btn delete delete-item"
               title="Delete"
-              data-id="1"
-              data-name="John Doe"
+              data-id="<%= user.id  %>"
+              data-name="<%= user.name  %>"
             >
               <i class="fas fa-trash"></i>
             </a>
           </div>
         </td>
       </tr>
-
-      <tr data-id="2">
-        <td>
-          <div style="display: flex; align-items: center">
-            <div class="avatar">JS</div>
-            <div style="margin-left: 15px">
-              <div class="item-title">Jane Smith</div>
-              <div class="item-subtitle">@janesmith</div>
-            </div>
-          </div>
-        </td>
-        <td>jane.smith@example.com</td>
-        <td>Editor</td>
-        <td>Yesterday, 14:22 PM</td>
-        <td>
-          <span class="badge badge-success">Active</span>
-        </td>
-        <td>
-          <div class="action-buttons">
-            <a
-              href="user-detail.html?id=2"
-              class="action-btn view"
-              title="View"
-            >
-              <i class="fas fa-eye"></i>
-            </a>
-            <a href="edit-user.html?id=2" class="action-btn edit" title="Edit">
-              <i class="fas fa-edit"></i>
-            </a>
-            <a
-              href="#"
-              class="action-btn delete delete-item"
-              title="Delete"
-              data-id="2"
-              data-name="Jane Smith"
-            >
-              <i class="fas fa-trash"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-
-      <tr data-id="3">
-        <td>
-          <div style="display: flex; align-items: center">
-            <div class="avatar">RJ</div>
-            <div style="margin-left: 15px">
-              <div class="item-title">Robert Johnson</div>
-              <div class="item-subtitle">@robertj</div>
-            </div>
-          </div>
-        </td>
-        <td>robert.j@example.com</td>
-        <td>Editor</td>
-        <td>2 days ago</td>
-        <td>
-          <span class="badge badge-warning">Pending</span>
-        </td>
-        <td>
-          <div class="action-buttons">
-            <a
-              href="user-detail.html?id=3"
-              class="action-btn view"
-              title="View"
-            >
-              <i class="fas fa-eye"></i>
-            </a>
-            <a href="edit-user.html?id=3" class="action-btn edit" title="Edit">
-              <i class="fas fa-edit"></i>
-            </a>
-            <a
-              href="#"
-              class="action-btn delete delete-item"
-              title="Delete"
-              data-id="3"
-              data-name="Robert Johnson"
-            >
-              <i class="fas fa-trash"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-
-      <tr data-id="4">
-        <td>
-          <div style="display: flex; align-items: center">
-            <div class="avatar">EB</div>
-            <div style="margin-left: 15px">
-              <div class="item-title">Emily Brown</div>
-              <div class="item-subtitle">@emilybrown</div>
-            </div>
-          </div>
-        </td>
-        <td>emily.brown@example.com</td>
-        <td>Viewer</td>
-        <td>Never</td>
-        <td>
-          <span class="badge badge-danger">Inactive</span>
-        </td>
-        <td>
-          <div class="action-buttons">
-            <a
-              href="user-detail.html?id=4"
-              class="action-btn view"
-              title="View"
-            >
-              <i class="fas fa-eye"></i>
-            </a>
-            <a href="edit-user.html?id=4" class="action-btn edit" title="Edit">
-              <i class="fas fa-edit"></i>
-            </a>
-            <a
-              href="#"
-              class="action-btn delete delete-item"
-              title="Delete"
-              data-id="4"
-              data-name="Emily Brown"
-            >
-              <i class="fas fa-trash"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-
-      <tr data-id="5">
-        <td>
-          <div style="display: flex; align-items: center">
-            <div class="avatar">MT</div>
-            <div style="margin-left: 15px">
-              <div class="item-title">Michael Taylor</div>
-              <div class="item-subtitle">@michaelt</div>
-            </div>
-          </div>
-        </td>
-        <td>michael.t@example.com</td>
-        <td>Administrator</td>
-        <td>Today, 10:12 AM</td>
-        <td>
-          <span class="badge badge-success">Active</span>
-        </td>
-        <td>
-          <div class="action-buttons">
-            <a
-              href="user-detail.html?id=5"
-              class="action-btn view"
-              title="View"
-            >
-              <i class="fas fa-eye"></i>
-            </a>
-            <a href="edit-user.html?id=5" class="action-btn edit" title="Edit">
-              <i class="fas fa-edit"></i>
-            </a>
-            <a
-              href="#"
-              class="action-btn delete delete-item"
-              title="Delete"
-              data-id="5"
-              data-name="Michael Taylor"
-            >
-              <i class="fas fa-trash"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-
-      <tr data-id="6">
-        <td>
-          <div style="display: flex; align-items: center">
-            <div class="avatar">SL</div>
-            <div style="margin-left: 15px">
-              <div class="item-title">Sarah Lee</div>
-              <div class="item-subtitle">@sarahlee</div>
-            </div>
-          </div>
-        </td>
-        <td>sarah.lee@example.com</td>
-        <td>Viewer</td>
-        <td>1 week ago</td>
-        <td>
-          <span class="badge badge-success">Active</span>
-        </td>
-        <td>
-          <div class="action-buttons">
-            <a
-              href="user-detail.html?id=6"
-              class="action-btn view"
-              title="View"
-            >
-              <i class="fas fa-eye"></i>
-            </a>
-            <a href="edit-user.html?id=6" class="action-btn edit" title="Edit">
-              <i class="fas fa-edit"></i>
-            </a>
-            <a
-              href="#"
-              class="action-btn delete delete-item"
-              title="Delete"
-              data-id="6"
-              data-name="Sarah Lee"
-            >
-              <i class="fas fa-trash"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
+      <% } %>
     </tbody>
   </table>
 
@@ -341,3 +129,4 @@
     </ul>
   </div>
 </div>
+<script src="/assets/js/userDelete.js"></script>

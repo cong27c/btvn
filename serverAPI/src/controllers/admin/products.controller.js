@@ -1,10 +1,7 @@
-const usersService = require("../../services/users.service");
+exports.index = async (req, res) => {
+  res.render("admin/products");
+};
 
-exports.getAll = async (req, res) => {
-  const users = await usersService.getAll();
-
-  res.render("admin/products", {
-    title: "PRODUCTS PAGE",
-    users,
-  });
+exports.show = async (req, res) => {
+  res.render("admin/posts/show");
 };
